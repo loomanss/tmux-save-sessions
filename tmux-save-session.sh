@@ -83,7 +83,24 @@ setup() {
   
   touch $filename
   echo '#!/bin/bash' >> $filename
-  echo 'if $(tmux has-session 2>/dev/null); then tmux -2u att; exit; fi' >> $filename
+  #echo 'if $(tmux has-session 2>/dev/null); then tmux -2u att; exit; fi' >> $filename
+
+  echo " session=\"$currentsessionname\"" >> $filename
+  echo ' #############################' >> $filename
+  echo ' #  detect existing session  #' >> $filename
+  echo ' #############################' >> $filename
+  echo ' ' >> $filename
+  echo ' tmux has-session -t $session' >> $filename
+  echo ' if [ $? != 0 ]' >> $filename
+  echo ' then' >> $filename
+  echo '    echo "creating new session...."' >> $filename
+  echo ' else' >> $filename
+  echo '    echo "attaching to existing session..."' >> $filename
+  echo '    tmux attach -t $session' >> $filename
+  echo '    exit' >> $filename
+  echo ' fi' >> $filename
+  echo ' tmux new-session -s $session -d' >> $filename
+  echo ' sleep 0.2' >> $filename
 }
 
 teardown() {
