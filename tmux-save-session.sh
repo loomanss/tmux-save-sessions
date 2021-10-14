@@ -79,6 +79,8 @@ setup() {
   filename=./tmux-session-`date "+%F"`-${timestamp:6}.sh
   sessions=$(tmux list-sessions -F "#{session_name}")
   echo $sessions
+  currentsessionname="$(tmux display-message -p '#S')"
+  
   touch $filename
   echo '#!/bin/bash' >> $filename
   echo 'if $(tmux has-session 2>/dev/null); then tmux -2u att; exit; fi' >> $filename
