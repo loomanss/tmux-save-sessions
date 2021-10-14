@@ -108,8 +108,8 @@ teardown() {
   chmod +x $filename
 }
 
-save_sessions() {
-  windows=$(tmux list-windows -a -F "#{session_name} #{window_index} #{window_name} #{window_panes} #{window_layout}")
+save_sessions(){
+  windows=$(tmux list-windows -a -F "#{session_name} #{window_index} #{window_name} #{window_panes} #{window_layout}"| sed -n '/^'$currentsessionname'/p')
   while read window; do
     construct_window $window
   done <<< "$windows"
